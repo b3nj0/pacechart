@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './App.css';
 import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
+import 'moment-duration-format';
 import Slider from 'rc-slider';
 import logo from './logo.svg';
 
@@ -126,31 +127,51 @@ class PaceControls extends Component {
 class PaceTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { distances: distances(props.unit) };
+    this.state = { 
+      distances: distances(props.unit),
+      offset: 5
+    };
   }
   render() {
+    const pace = this.props.pace;
+    const offset = this.state.offset;
+    const pace_unit = this.props.unit;
+    
+    let duration_offset = (distance, pace, offset) => {
+      return duration(distance.d[0], distance.d[1], pace + offset, pace_unit)
+    } 
+    let formatted_duration = (dur) => {
+      return moment.duration(dur, 'seconds').format('h:mm:ss');
+    }
+    let formatted_speed = (dur) => {
+      return formatted_duration(dur) + '/' + pace_unit.name;
+    }
+
     const rows = this.state.distances.map((distance) => {
       let label = distance.label
-      let distance_in_mi = distance.d[1].to_mi(distance.d[0])
-      let distance_in_km = distance.d[1].to_km(distance.d[0])
-			let offset = 5;
-      let duration_in_secs_sub_offset = duration(distance.d[0], distance.d[1], this.props.pace - offset, this.props.unit)
-      let duration_in_secs = duration(distance.d[0], distance.d[1], this.props.pace, this.props.unit)
-      let duration_in_secs_add_offset = duration(distance.d[0], distance.d[1], this.props.pace + offset, this.props.unit)
-      let dur = moment.duration(duration_in_secs, 'seconds')
       return (<tr key={label}>
                       <td>{label}</td>
-                      <td>{distance_in_mi}</td>
-                      <td>{distance_in_km}</td>
-                      <td>{duration_in_secs}</td>
-                      <td>{dur.toISOString()}</td>
+                      <td>{formatted_duration(duration_offset(distance, pace, -(2*offset)))}</td>
+                      <td>{formatted_duration(duration_offset(distance, pace, -offset))}</td>
+                      <td>{formatted_duration(duration_offset(distance, pace, 0))}</td>
+                      <td>{formatted_duration(duration_offset(distance, pace, offset))}</td>
+                      <td>{formatted_duration(duration_offset(distance, pace, (2*offset)))}</td>
                       </tr>)
     });
+
     return (
 			<div>
-				<div>Pace Chart</div>
 				<table>
-					<thead><tr><th>Distance</th><th>Miles</th><th>Kilometres</th></tr></thead>
+					<thead>
+            <tr>
+              <th>Distance</th>
+              <th>{formatted_speed(pace-(2*offset))}</th>
+              <th>{formatted_speed(pace-offset)}</th>
+              <th>{formatted_speed(pace)}</th>
+              <th>{formatted_speed(pace+offset)}</th>
+              <th>{formatted_speed(pace+(2*offset))}</th>
+            </tr>
+          </thead>
 					<tbody>
 						{rows}
 					</tbody>

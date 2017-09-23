@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import 'moment-duration-format';
 import Slider from 'rc-slider';
 import logo from './logo.svg';
+import { Table } from 'semantic-ui-react';
 
 // important times for the slider control
 
@@ -149,34 +150,34 @@ class PaceTable extends Component {
 
     const rows = this.state.distances.map((distance) => {
       let label = distance.label
-      return (<tr key={label}>
-                      <td>{label}</td>
-                      <td>{formatted_duration(duration_offset(distance, pace, -(2*offset)))}</td>
-                      <td>{formatted_duration(duration_offset(distance, pace, -offset))}</td>
-                      <td>{formatted_duration(duration_offset(distance, pace, 0))}</td>
-                      <td>{formatted_duration(duration_offset(distance, pace, offset))}</td>
-                      <td>{formatted_duration(duration_offset(distance, pace, (2*offset)))}</td>
-                      </tr>)
+      return (
+          <Table.Row key={label}>
+            <Table.Cell>{label}</Table.Cell>
+            <Table.Cell>{formatted_duration(duration_offset(distance, pace, -(2*offset)))}</Table.Cell>
+            <Table.Cell>{formatted_duration(duration_offset(distance, pace, -offset))}</Table.Cell>
+            <Table.Cell>{formatted_duration(duration_offset(distance, pace, 0))}</Table.Cell>
+            <Table.Cell>{formatted_duration(duration_offset(distance, pace, offset))}</Table.Cell>
+            <Table.Cell>{formatted_duration(duration_offset(distance, pace, (2*offset)))}</Table.Cell>
+          </Table.Row>
+      );
     });
 
     return (
-			<div>
-				<table>
-					<thead>
-            <tr>
-              <th>Distance</th>
-              <th>{formatted_speed(pace-(2*offset))}</th>
-              <th>{formatted_speed(pace-offset)}</th>
-              <th>{formatted_speed(pace)}</th>
-              <th>{formatted_speed(pace+offset)}</th>
-              <th>{formatted_speed(pace+(2*offset))}</th>
-            </tr>
-          </thead>
-					<tbody>
-						{rows}
-					</tbody>
-				</table>
-	  	</div>
+        <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Distance</Table.HeaderCell>
+              <Table.HeaderCell>{formatted_speed(pace-(2*offset))}</Table.HeaderCell>
+              <Table.HeaderCell>{formatted_speed(pace-offset)}</Table.HeaderCell>
+              <Table.HeaderCell>{formatted_speed(pace)}</Table.HeaderCell>
+              <Table.HeaderCell>{formatted_speed(pace+offset)}</Table.HeaderCell>
+              <Table.HeaderCell>{formatted_speed(pace+(2*offset))}</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {rows}
+          </Table.Body>
+        </Table>
    );
   }
 

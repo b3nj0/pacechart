@@ -2,6 +2,7 @@
   "name": "pacechart",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://b3nj0.github.io/pacechart",
   "dependencies": {
     "moment": "^2.18.1",
     "moment-duration-format": "^1.3.0",

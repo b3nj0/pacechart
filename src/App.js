@@ -116,7 +116,7 @@ class PaceControls extends Component {
 	render() {
 		return (
 			<div>
-		    <Slider min={0} defaultValue={300} max={900} onChange={this.props.onPaceChange} marks={marks}/>
+		    <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
 				<br/>
 				<PaceUnitSelector onUnitChange={this.props.onUnitChange}/>
 			</div>
@@ -168,12 +168,12 @@ class PaceTable extends Component {
 class PaceChart extends Component {
   constructor(props) {
     super(props);
-    this.state = { unit:km, pace:240 };
+    this.state = { unit:km, pace:300 };
   }
 	render() {
 		return (
 			<div>
-				<PaceControls onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
+				<PaceControls pace={this.state.pace} onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
 				<PaceTable unit={this.state.unit} pace={this.state.pace}/>
 			</div>
 		);

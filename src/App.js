@@ -5,7 +5,6 @@ import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
 import Slider from 'rc-slider';
 import logo from './logo.svg';
-import {IntlProvider, FormattedTime} from 'react-intl';
 
 // important times for the slider control
 
@@ -139,18 +138,16 @@ class PaceTable extends Component {
       let duration_in_secs = duration(distance.d[0], distance.d[1], this.props.pace, this.props.unit)
       let duration_in_secs_add_offset = duration(distance.d[0], distance.d[1], this.props.pace + offset, this.props.unit)
       let dur = moment.duration(duration_in_secs, 'seconds')
-      return (<tr key={distance.label}>
+      return (<tr key={label}>
                       <td>{label}</td>
                       <td>{distance_in_mi}</td>
                       <td>{distance_in_km}</td>
                       <td>{duration_in_secs}</td>
                       <td>{dur.toISOString()}</td>
-                      <td><FormattedTime value={new Date()} format="hhmm" /></td>
                       </tr>)
     });
     return (
-      <IntlProvider locale="en">
-				<div>
+			<div>
 				<div>Pace Chart</div>
 				<table>
 					<thead><tr><th>Distance</th><th>Miles</th><th>Kilometres</th></tr></thead>
@@ -158,8 +155,7 @@ class PaceTable extends Component {
 						{rows}
 					</tbody>
 				</table>
-				</div>
-      </IntlProvider>
+	  	</div>
    );
   }
 

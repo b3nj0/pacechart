@@ -134,7 +134,10 @@ class PaceTable extends Component {
       let label = distance.label
       let distance_in_mi = distance.d[1].to_mi(distance.d[0])
       let distance_in_km = distance.d[1].to_km(distance.d[0])
-      let duration_in_secs = duration(distance.d[0], distance.d[1], 245, this.props.unit)
+			let offset = 5;
+      let duration_in_secs_sub_offset = duration(distance.d[0], distance.d[1], this.props.pace - offset, this.props.unit)
+      let duration_in_secs = duration(distance.d[0], distance.d[1], this.props.pace, this.props.unit)
+      let duration_in_secs_add_offset = duration(distance.d[0], distance.d[1], this.props.pace + offset, this.props.unit)
       let dur = moment.duration(duration_in_secs, 'seconds')
       return (<tr key={distance.label}>
                       <td>{label}</td>
@@ -163,11 +166,15 @@ class PaceTable extends Component {
 }
 
 class PaceChart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { unit:km, pace:240 };
+  }
 	render() {
 		return (
 			<div>
-				<PaceControls onUnitChange={e => console.log(e)} onPaceChange={e => console.log(e)}/>
-				<PaceTable unit={km}/>
+				<PaceControls onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
+				<PaceTable unit={this.state.unit} pace={this.state.pace}/>
 			</div>
 		);
 	}

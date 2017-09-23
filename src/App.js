@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
 import 'moment-duration-format';
 import Slider from 'rc-slider';
-import logo from './logo.svg';
 import { Container, Table } from 'semantic-ui-react';
 
 // important times for the slider control

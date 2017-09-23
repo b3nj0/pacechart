@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import 'moment-duration-format';
 import Slider from 'rc-slider';
 import logo from './logo.svg';
-import { Table } from 'semantic-ui-react';
+import { Container, Table } from 'semantic-ui-react';
 
 // important times for the slider control
 
@@ -192,7 +192,9 @@ class PaceChart extends Component {
 		return (
 			<div>
 				<PaceControls pace={this.state.pace} onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
-				<PaceTable unit={this.state.unit} pace={this.state.pace}/>
+        <Container text>
+          <PaceTable unit={this.state.unit} pace={this.state.pace}/>
+        </Container>
 			</div>
 		);
 	}

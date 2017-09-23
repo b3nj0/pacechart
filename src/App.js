@@ -138,9 +138,6 @@ class PaceControls extends Component {
 }
 
 class PaceTable extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const pace = this.props.pace;
     const offset = 5;

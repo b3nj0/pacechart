@@ -23,6 +23,10 @@
   to { transform: rotate(360deg); }
 }
 
+* {
+  font-size:80%;
+}
+
 td {
 color: grey;
 }

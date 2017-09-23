@@ -128,15 +128,13 @@ class PaceControls extends Component {
 class PaceTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      distances: distances(props.unit),
-      offset: 5
-    };
   }
   render() {
     const pace = this.props.pace;
-    const offset = this.state.offset;
+    const offset = 5;
     const pace_unit = this.props.unit;
+    
+    const distances_to_show = distances(this.props.unit)
     
     let duration_offset = (distance, pace, offset) => {
       return duration(distance.d[0], distance.d[1], pace + offset, pace_unit)
@@ -148,7 +146,7 @@ class PaceTable extends Component {
       return formatted_duration(dur) + '/' + pace_unit.name;
     }
 
-    const rows = this.state.distances.map((distance) => {
+    const rows = distances_to_show.map((distance) => {
       let label = distance.label
       return (
           <Table.Row key={label}>

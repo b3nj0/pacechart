@@ -126,7 +126,7 @@ class PaceControls extends Component {
 		return (
       <div>
         <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
-        <br/>
+        <Divider hidden/>
         <Grid>
           <Grid.Row centered>
             <PaceUnitSelector onUnitChange={this.props.onUnitChange}/>

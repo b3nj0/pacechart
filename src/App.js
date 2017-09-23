@@ -163,7 +163,7 @@ class PaceTable extends Component {
     });
 
     return (
-        <Table celled>
+        <Table celled compact selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Distance</Table.HeaderCell>

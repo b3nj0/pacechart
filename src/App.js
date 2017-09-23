@@ -4,7 +4,7 @@ import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
 import 'moment-duration-format';
 import Slider from 'rc-slider';
-import { Container, Table } from 'semantic-ui-react';
+import { Container, Divider, Form, Grid, Radio, Table } from 'semantic-ui-react';
 
 // important times for the slider control
 
@@ -94,22 +94,29 @@ function distances(distance_unit = km) {
 }
 
 class PaceUnitSelector extends Component {
-	onUnitChange(e) {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'km'};
+  }
+	onUnitChange(value) {
 		if (typeof this.props.onUnitChange === 'function') {
-			const newUnit = e.target.value;
+			const newUnit = value;
+      this.setState({value: newUnit});
 			this.props.onUnitChange(newUnit);
 		}
 	}
 	render() {
 		return (
-			<div>
-				<label className="radio-inline">
-					<input type="radio" value="km" name="unit" onClick={e => this.onUnitChange(e)} defaultChecked={true} /> KM
-				</label>
-				<label className="radio-inline">
-					<input type="radio" value="mi" name="unit" onClick={e => this.onUnitChange(e)} /> M
-				</label>
-			</div>
+      <Form>
+        <div className={'inline fields'}>
+          <Form.Field className="radio-inline">
+            <Radio value="km" name="unit" checked={this.state.value === 'km'} onClick={(e, data) => this.onUnitChange(data.value)} label="KM"/>
+          </Form.Field>
+          <Form.Field className="radio-inline">
+            <Radio value="mi" name="unit" checked={this.state.value === 'mi'} onClick={(e, data) => this.onUnitChange(data.value)} label="M"/>
+          </Form.Field>
+        </div>
+      </Form>
 		);
 	}
 }
@@ -117,11 +124,15 @@ class PaceUnitSelector extends Component {
 class PaceControls extends Component {
 	render() {
 		return (
-			<div>
-		    <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
-				<br/>
-				<PaceUnitSelector onUnitChange={this.props.onUnitChange}/>
-			</div>
+      <div>
+        <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
+        <br/>
+        <Grid>
+          <Grid.Row centered>
+            <PaceUnitSelector onUnitChange={this.props.onUnitChange}/>
+          </Grid.Row>
+        </Grid>
+      </div>
 		);
 	}	
 }

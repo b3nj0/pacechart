@@ -45,7 +45,9 @@ const km = UNITS.km
 const mi = UNITS.mi
 
 const DISTANCES = [
+    {d: [0.8, km],  label:'800m', class:'race'},
     {d: [1, km],    label:'1K', class:'race'},
+    {d: [1.5, km],  label:'1500m', class:'race'},
     {d: [1, mi],    label:'1M', class:'race'},
     {d: [5, km],    label:'5K', class:'race'},
     {d: [5, mi],    label:'5M', class:'race'},
@@ -65,6 +67,7 @@ const DISTANCES = [
     {d: [50, mi],   label:'50M', class:'race'},
     {d: [100, km],  label:'100K', class:'race'},
     {d: [100, mi],  label:'100M', class:'race'},
+    {d: [200, mi],  label:'200M', class:'race'},
 ]
 
 function distances(distance_unit = km) {
@@ -149,11 +152,11 @@ class PaceTable extends Component {
     const rows = distances_to_show.map((distance) => {
       let label = distance.label
       return (
-          <Table.Row key={label}>
+          <Table.Row key={label} className={distance.class}>
             <Table.Cell>{label}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, -(2*offset)))}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, -offset))}</Table.Cell>
-            <Table.Cell>{formatted_duration(duration_offset(distance, pace, 0))}</Table.Cell>
+            <Table.Cell className={distance.class + ' pace-col'}>{formatted_duration(duration_offset(distance, pace, 0))}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, offset))}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, (2*offset)))}</Table.Cell>
           </Table.Row>
@@ -161,10 +164,10 @@ class PaceTable extends Component {
     });
 
     return (
-        <Table celled compact selectable>
+        <Table celled compact definition selectable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Distance</Table.HeaderCell>
+              <Table.HeaderCell/>
               <Table.HeaderCell>{formatted_speed(pace-(2*offset))}</Table.HeaderCell>
               <Table.HeaderCell>{formatted_speed(pace-offset)}</Table.HeaderCell>
               <Table.HeaderCell>{formatted_speed(pace)}</Table.HeaderCell>

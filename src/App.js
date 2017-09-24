@@ -98,9 +98,9 @@ class PaceUnitSelector extends Component {
     super(props);
     this.state = {value: 'km'};
   }
-	onUnitChange(value) {
+	onUnitChange = (e, data) => {
+    const newUnit = data.value;
 		if (typeof this.props.onUnitChange === 'function') {
-			const newUnit = value;
       this.setState({value: newUnit});
 			this.props.onUnitChange(newUnit);
 		}
@@ -110,10 +110,10 @@ class PaceUnitSelector extends Component {
       <Form>
         <div className={'inline fields'}>
           <Form.Field className="radio-inline">
-            <Radio value="km" name="unit" checked={this.state.value === 'km'} onClick={(e, data) => this.onUnitChange(data.value)} label="KM"/>
+            <Radio value="km" name="unit" checked={this.state.value === 'km'} onClick={this.onUnitChange} label="KM"/>
           </Form.Field>
           <Form.Field className="radio-inline">
-            <Radio value="mi" name="unit" checked={this.state.value === 'mi'} onClick={(e, data) => this.onUnitChange(data.value)} label="M"/>
+            <Radio value="mi" name="unit" checked={this.state.value === 'mi'} onClick={this.onUnitChange} label="M"/>
           </Form.Field>
         </div>
       </Form>

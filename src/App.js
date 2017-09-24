@@ -6,6 +6,7 @@ import 'moment-duration-format';
 import Cookies from 'universal-cookie';
 import Slider from 'rc-slider';
 import { Container, Divider, Form, Grid, Radio, Table } from 'semantic-ui-react';
+import { RIEInput } from 'riek';
 
 // cookies for storing pace and unit
 
@@ -98,6 +99,17 @@ function distances(distance_unit = km) {
     return ds;
 }
 
+// parsing code
+
+function parseDuration(durationStr) {
+  let tokens = durationStr.split(/:/).map((t) => parseInt(t, 10)).reverse();
+  let duration = moment.duration( { seconds: tokens[0], minutes: tokens[1], hours: tokens[2] } )
+  if (!duration.isValid() || tokens.length > 3 || duration.asMilliseconds() <= 0) {
+    return moment.duration.invalid();
+  }
+  return duration;
+}
+
 class PaceUnitSelector extends Component {
   constructor(props) {
     super(props);
@@ -143,6 +155,16 @@ class PaceControls extends Component {
 }
 
 class PaceTable extends Component {
+  validateDuration = (value) => {
+    return parseDuration(value).isValid();
+  }
+  onDurationChange = (distance, duration) =>  {
+    let duration_in_secs = duration.asSeconds();
+    let distance_in_km = distance.d[1].to_km(distance.d[0])
+    let pace_per_km = duration_in_secs / distance_in_km;
+    let pace_per_unit = pace_per_km / this.props.unit.from_km(1);
+    return this.props.onPaceChange(pace_per_unit);
+  }
   render() {
     const pace = this.props.pace;
     const offset = 5;
@@ -167,7 +189,13 @@ class PaceTable extends Component {
             <Table.Cell>{label}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, -(2*offset)))}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, -offset))}</Table.Cell>
-            <Table.Cell className={distance.class + ' pace-col'}>{formatted_duration(duration_offset(distance, pace, 0))}</Table.Cell>
+            <Table.Cell className={distance.class + ' pace-col'}>
+              <RIEInput 
+                value={formatted_duration(duration_offset(distance, pace, 0))} 
+                propName='pace' 
+                change={e => this.onDurationChange(distance, parseDuration(e.pace))}
+                validate={this.validateDuration}/>
+            </Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, offset))}</Table.Cell>
             <Table.Cell>{formatted_duration(duration_offset(distance, pace, (2*offset)))}</Table.Cell>
           </Table.Row>
@@ -216,7 +244,7 @@ class PaceChart extends Component {
       <div>
         <PaceControls unit={this.state.unit} pace={this.state.pace} onUnitChange={this.onUnitChange} onPaceChange={this.onPaceChange}/>
         <Container text>
-          <PaceTable unit={this.state.unit} pace={this.state.pace}/>
+          <PaceTable unit={this.state.unit} pace={this.state.pace} onPaceChange={this.onPaceChange}/>
         </Container>
       </div>
     );

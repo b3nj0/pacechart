@@ -3,8 +3,13 @@ import './App.css';
 import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
 import 'moment-duration-format';
+import Cookies from 'universal-cookie';
 import Slider from 'rc-slider';
 import { Container, Divider, Form, Grid, Radio, Table } from 'semantic-ui-react';
+
+// cookies for storing pace and unit
+
+const cookies = new Cookies();
 
 // important times for the slider control
 
@@ -193,12 +198,23 @@ class PaceTable extends Component {
 class PaceChart extends Component {
   constructor(props) {
     super(props);
-    this.state = { unit:km, pace:300 };
+    this.state = { 
+      unit: UNITS[cookies.get('unit') || km.name], 
+      pace: parseInt(cookies.get('pace') || '300')
+    };
+  }
+  onUnitChange = (newUnit) => {
+    cookies.set('unit', newUnit.name, {path: ''});
+    this.setState({unit: newUnit});
+  }
+  onPaceChange = (newPace) => {
+    cookies.set('pace', newPace, {path: ''});
+    this.setState({pace: newPace});
   }
   render() {
     return (
       <div>
-        <PaceControls unit={this.state.unit} pace={this.state.pace} onUnitChange={e => this.setState({unit: e})} onPaceChange={e => this.setState({pace: e})}/>
+        <PaceControls unit={this.state.unit} pace={this.state.pace} onUnitChange={this.onUnitChange} onPaceChange={this.onPaceChange}/>
         <Container text>
           <PaceTable unit={this.state.unit} pace={this.state.pace}/>
         </Container>

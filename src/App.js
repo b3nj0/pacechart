@@ -96,12 +96,12 @@ function distances(distance_unit = km) {
 class PaceUnitSelector extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'km'};
+    this.state = {unit: this.props.unit};
   }
   onUnitChange = (e, data) => {
-    const newUnit = data.value;
+    const newUnit = UNITS[data.value];
     if (typeof this.props.onUnitChange === 'function') {
-      this.setState({value: newUnit});
+      this.setState({unit: newUnit});
       this.props.onUnitChange(newUnit);
     }
   }
@@ -110,10 +110,10 @@ class PaceUnitSelector extends Component {
       <Form>
         <div className={'inline fields'}>
           <Form.Field className="radio-inline">
-            <Radio value="km" name="unit" checked={this.state.value === 'km'} onClick={this.onUnitChange} label="KM"/>
+            <Radio value="km" name="unit" checked={this.state.unit === km} onClick={this.onUnitChange} label="KM"/>
           </Form.Field>
           <Form.Field className="radio-inline">
-            <Radio value="mi" name="unit" checked={this.state.value === 'mi'} onClick={this.onUnitChange} label="M"/>
+            <Radio value="mi" name="unit" checked={this.state.unit === mi} onClick={this.onUnitChange} label="M"/>
           </Form.Field>
         </div>
       </Form>
@@ -125,11 +125,11 @@ class PaceControls extends Component {
   render() {
     return (
       <div>
-        <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
+        <Slider min={0} value={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
         <Divider hidden/>
         <Grid>
           <Grid.Row centered>
-            <PaceUnitSelector onUnitChange={this.props.onUnitChange}/>
+            <PaceUnitSelector unit={this.props.unit} onUnitChange={this.props.onUnitChange}/>
           </Grid.Row>
         </Grid>
       </div>
@@ -198,7 +198,7 @@ class PaceChart extends Component {
   render() {
     return (
       <div>
-        <PaceControls pace={this.state.pace} onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
+        <PaceControls unit={this.state.unit} pace={this.state.pace} onUnitChange={e => this.setState({unit: e})} onPaceChange={e => this.setState({pace: e})}/>
         <Container text>
           <PaceTable unit={this.state.unit} pace={this.state.pace}/>
         </Container>

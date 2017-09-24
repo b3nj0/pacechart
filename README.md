@@ -9,6 +9,7 @@
 * [rc-slider](http://react-component.github.io/slider/)
 * [momentjs](https://momentjs.com/docs/)
 * [momentjs-duration-format](https://momentjs.com/docs/#/plugins/duration-format/)
+* [universal-cookie](https://www.npmjs.com/package/universal-cookie)
 
 ## License
 

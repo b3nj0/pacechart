@@ -200,7 +200,7 @@ class PaceChart extends Component {
     super(props);
     this.state = { 
       unit: UNITS[cookies.get('unit') || km.name], 
-      pace: parseInt(cookies.get('pace') || '300')
+      pace: parseInt(cookies.get('pace') || '300', 10)
     };
   }
   onUnitChange = (newUnit) => {

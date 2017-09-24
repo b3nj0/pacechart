@@ -9,15 +9,15 @@ import { Container, Divider, Form, Grid, Radio, Table } from 'semantic-ui-react'
 // important times for the slider control
 
 const marks = {
-	180: '3:00',
-	240: '4:00',
-	300: '5:00',
-	360: '6:00',
-	420: '7:00',
-	480: '8:00',
-	540: '9:00',
-	600: '10:00',
-	900: '15:00',
+  180: '3:00',
+  240: '4:00',
+  300: '5:00',
+  360: '6:00',
+  420: '7:00',
+  480: '8:00',
+  540: '9:00',
+  600: '10:00',
+  900: '15:00',
 }
 
 // functions for converting times to distances
@@ -98,15 +98,15 @@ class PaceUnitSelector extends Component {
     super(props);
     this.state = {value: 'km'};
   }
-	onUnitChange = (e, data) => {
+  onUnitChange = (e, data) => {
     const newUnit = data.value;
-		if (typeof this.props.onUnitChange === 'function') {
+    if (typeof this.props.onUnitChange === 'function') {
       this.setState({value: newUnit});
-			this.props.onUnitChange(newUnit);
-		}
-	}
-	render() {
-		return (
+      this.props.onUnitChange(newUnit);
+    }
+  }
+  render() {
+    return (
       <Form>
         <div className={'inline fields'}>
           <Form.Field className="radio-inline">
@@ -117,13 +117,13 @@ class PaceUnitSelector extends Component {
           </Form.Field>
         </div>
       </Form>
-		);
-	}
+    );
+  }
 }
 
 class PaceControls extends Component {
-	render() {
-		return (
+  render() {
+    return (
       <div>
         <Slider min={0} defaultValue={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
         <Divider hidden/>
@@ -133,8 +133,8 @@ class PaceControls extends Component {
           </Grid.Row>
         </Grid>
       </div>
-		);
-	}	
+    );
+  }
 }
 
 class PaceTable extends Component {
@@ -195,24 +195,24 @@ class PaceChart extends Component {
     super(props);
     this.state = { unit:km, pace:300 };
   }
-	render() {
-		return (
-			<div>
-				<PaceControls pace={this.state.pace} onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
+  render() {
+    return (
+      <div>
+        <PaceControls pace={this.state.pace} onUnitChange={e => this.setState({unit: UNITS[e]})} onPaceChange={e => this.setState({pace: e})}/>
         <Container text>
           <PaceTable unit={this.state.unit} pace={this.state.pace}/>
         </Container>
-			</div>
-		);
-	}
+      </div>
+    );
+}
 }
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-				<h1>Pace Chart</h1>
-				<PaceChart />
+        <h1>Pace Chart</h1>
+        <PaceChart />
       </div>
     );
   }

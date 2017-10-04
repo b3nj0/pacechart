@@ -213,7 +213,7 @@ class PaceTable extends Component {
     });
 
     return (
-        <Table celled compact definition selectable>
+        <Table celled compact='very' definition selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell/>

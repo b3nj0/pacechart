@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import './App.css';
 import 'rc-slider/assets/index.css';
 import * as moment from 'moment';
@@ -11,6 +12,10 @@ import { RIEInput } from 'riek';
 // cookies for storing pace and unit
 
 const cookies = new Cookies();
+
+// initialise google analytics
+ReactGA.initialize('UA-106929065-1', {titleCase: false}); 
+ReactGA.pageview('/');
 
 // important times for the slider control
 
@@ -117,6 +122,7 @@ class PaceUnitSelector extends Component {
   }
   onUnitChange = (e, data) => {
     const newUnit = UNITS[data.value];
+    ReactGA.event({category: 'pace_input', action: 'unit_change', value: newUnit === mi ? 1 : 0});
     if (typeof this.props.onUnitChange === 'function') {
       this.setState({unit: newUnit});
       this.props.onUnitChange(newUnit);
@@ -139,10 +145,13 @@ class PaceUnitSelector extends Component {
 }
 
 class PaceControls extends Component {
+  onPaceChanged = () => {
+    ReactGA.event({category: 'pace_input', action: 'pace_change', value: this.props.pace});
+  }
   render() {
     return (
       <div>
-        <Slider min={0} value={this.props.pace} max={900} onChange={this.props.onPaceChange} marks={marks}/>
+        <Slider min={0} value={this.props.pace} max={900} onChange={this.props.onPaceChange} onAfterChange={this.onPaceChanged} marks={marks}/>
         <Divider hidden/>
         <Grid>
           <Grid.Row centered>
@@ -163,6 +172,7 @@ class PaceTable extends Component {
     let distance_in_km = distance.d[1].to_km(distance.d[0])
     let pace_per_km = duration_in_secs / distance_in_km;
     let pace_per_unit = pace_per_km / this.props.unit.from_km(1);
+    ReactGA.event({category: 'pace_input', action: 'duration_change', value: distance_in_km});
     return this.props.onPaceChange(pace_per_unit);
   }
   render() {

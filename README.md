@@ -7,6 +7,7 @@
 * [ReactJs](https://facebook.github.io/react/)
 * [React Semantic UI](https://react.semantic-ui.com)
 * [React Inline Edit Kit](https://github.com/kaivi/riek)
+* [React Google Analytics](https://github.com/react-ga/react-ga)
 * [rc-slider](http://react-component.github.io/slider/)
 * [momentjs](https://momentjs.com/docs/)
 * [momentjs-duration-format](https://momentjs.com/docs/#/plugins/duration-format/)

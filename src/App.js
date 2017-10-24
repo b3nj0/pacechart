@@ -266,6 +266,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Pace Chart</h1>
+        <p>5K, 10K, 1/2 Marathon, Marathon finish times given your expected pace.</p>
         <PaceChart />
       </div>
     );

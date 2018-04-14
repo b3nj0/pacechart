@@ -54,6 +54,7 @@ const km = UNITS.km
 const mi = UNITS.mi
 
 const DISTANCES = [
+    {d: [0.4, km],  label:'400m', class:'race'},
     {d: [0.8, km],  label:'800m', class:'race'},
     {d: [1, km],    label:'1K', class:'race'},
     {d: [1.5, km],  label:'1500m', class:'race'},

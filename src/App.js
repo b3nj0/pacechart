@@ -60,6 +60,7 @@ const DISTANCES = [
     {d: [1.5, km],  label:'1500m', class:'race'},
     {d: [1, mi],    label:'1M', class:'race'},
     {d: [5, km],    label:'5K', class:'race'},
+    {d: [5.6, km],  label:'5.6K', class:'race'},
     {d: [5, mi],    label:'5M', class:'race'},
     {d: [10, km],   label:'10K', class:'race'},
     {d: [15, km],   label:'15K', class:'milestone km'},
